@@ -1,1 +1,1 @@
-*.js linguist-language=csharp
+*.js linguist-detectable=false
