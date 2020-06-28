@@ -1,5 +1,5 @@
 # Freelancer-Corpo
-This project was done as a semestral project of a university course: PV179 System Development in C#/.NET, FI MUNI.
+This project was done as a semestral project in a university course: PV179 System Development in C#/.NET (FI MUNI).
 
 ## Registered Users:
 - they must provide personal information
