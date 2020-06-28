@@ -1,0 +1,198 @@
+﻿@model FreelancerCorp.PresentationLayer.Models.Freelancers.FreelancerDetailViewModel
+
+
+@{
+    ViewBag.Title = "Freelancer details";
+}
+
+<h2>Here is the place to look at details about the ULTIMATE freelancer:</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.UserName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UserName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Freelancer.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Freelancer.Name)
+        </dd>
+
+        <dt>
+            Average rating
+        </dt>
+
+        <dd>
+            @if (Model.Freelancer.SumRating.HasValue)
+            {
+                <strong class="text-danger" style="color:darkgreen">@string.Format("{0:N2}", @Model.Freelancer.SumRating)</strong>
+            }
+            else
+            {
+                <strong class="text-danger">No rated yet</strong>
+            }
+        </dd>
+
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Freelancer.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Freelancer.Email)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Freelancer.PhoneNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Freelancer.PhoneNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Freelancer.Location)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Freelancer.Location)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Freelancer.Info)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Freelancer.Info)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Freelancer.Sex)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Freelancer.Sex)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Freelancer.DoB)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Freelancer.DoB)
+        </dd>
+
+    </dl>
+</div>
+
+
+<h4> Taken Offers: </h4>
+<table class="table">
+    <tr>
+        <th>
+            Name
+        </th>
+        <th>
+            Category
+        </th>
+        <th>
+            Price
+        </th>
+    </tr>
+    @foreach (var offer in Model.Freelancer.AppliedToOffers)
+    {
+        <div class="card clickable-area" @("onclick=GoToDetail('" + offer.Id + "')")></div>
+
+        <tr>
+            <td>
+                <strong class="text-danger" style="color:silver">@offer.Name</strong>
+            </td>
+            <td>
+                <strong class="text-danger" style="color:silver">@offer.Category</strong>
+            </td>
+            <td>
+                <strong class="text-danger" style="color:silver">@offer.Price</strong>
+            </td>
+            <td>
+                <strong class="text-danger">@Html.ActionLink("Details", "Details", "Offers", new { id = offer.Id }, new { @class = "navbar-brand" })</strong>
+            </td>
+        </tr>
+
+    }
+</table>
+
+
+<h4> Created Offers: </h4>
+<table class="table">
+    <tr>
+        <th>
+            Name
+        </th>
+        <th>
+            Category
+        </th>
+        <th>
+            Price
+        </th>
+    </tr>
+    @foreach (var offer in Model.Freelancer.Offers)
+    {
+
+        <tr>
+            <td>
+                <strong class="text-danger" style="color:silver">@offer.Name</strong>
+            </td>
+            <td>
+                <strong class="text-danger" style="color:silver">@offer.Category</strong>
+            </td>
+            <td>
+                <strong class="text-danger" style="color:silver">@offer.Price</strong>
+            </td>
+            <td>
+                @Html.ActionLink("Details", "Details", "Offers", new { id = offer.Id }, new { @class = "navbar-brand" })
+            </td>
+        </tr>
+
+    }
+</table>
+
+<h4> Ratings for you: </h4>
+<table class="table">
+    <tr>
+        <th>
+            Creator
+        </th>
+        <th>
+            Score
+        </th>
+    </tr>
+    @foreach (var rating in Model.Freelancer.Ratings)
+    {
+        <tr>
+            <td>
+                <strong class="text-danger" style="color:silver">@rating.creator</strong>
+            </td>
+            <td>
+                <strong class="text-danger" style="color:silver">@rating.rating.Score</strong>
+            </td>
+            <td>
+            </td>
+            <td>
+                @Html.ActionLink("Details", "Details", "Ratings", new { id = rating.rating.Id, ratedUserName = User.Identity.Name }, new { @class = "navbar-brand" })
+            </td>
+        </tr>
+
+    }
+</table>
+
+<p>
+    @Html.ActionLink("Edit", "EditProfile")
+</p>

@@ -1,0 +1,158 @@
+﻿@model FreelancerCorp.BusinessLayer.DTOs.CorporationDTO
+
+@{
+    ViewBag.Title = "Corporation details";
+}
+
+<h2>Here is the place to look at details about the ULTIMATE corporation:</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            User name/ Name
+        </dt>
+        
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Info)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Info)
+        </dd>
+
+        <dt>
+            Average rating
+        </dt>
+
+        <dd>
+            @if (Model.SumRating.HasValue)
+            {
+                <strong class="text-danger" style="color:darkgreen">@string.Format("{0:N2}", @Model.SumRating)</strong>
+            }
+            else
+            {
+                <strong class="text-danger">No rated yet</strong>
+            }
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+
+        <dd>
+            <a href="mailto:@Model.Email">@Model.Email</a>
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PhoneNumber)
+        </dt>
+
+        <dd>
+            @if (!string.IsNullOrEmpty(@Model.PhoneNumber))
+            {
+                <a href="tel:@Model.PhoneNumber">@Model.PhoneNumber</a>
+            }
+            else
+            {
+                <p>
+                    No phone number given.
+                </p>
+            }
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Address)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Address)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Location)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Location)
+        </dd>
+    </dl>
+</div>
+
+<h4> Created Offers: </h4>
+<table class="table">
+    <tr>
+        <th>
+            Name
+        </th>
+        <th>
+            Category
+        </th>
+        <th>
+            Price
+        </th>
+    </tr>
+    @foreach (var offer in Model.Offers)
+    {
+
+        <tr>
+            <td>
+                <strong class="text-danger" style="color:silver">@offer.Name</strong>
+            </td>
+            <td>
+                <strong class="text-danger" style="color:silver">@offer.Category</strong>
+            </td>
+            <td>
+                <strong class="text-danger" style="color:silver">@offer.Price</strong>
+            </td>
+            <td>
+                @Html.ActionLink("Details", "Details", "Offers", new { id = offer.Id }, new { @class = "navbar-brand" })
+            </td>
+        </tr>
+
+    }
+</table>
+
+<h4> Ratings for this user: </h4>
+<table class="table">
+    <tr>
+        <th>
+            Creator
+        </th>
+        <th>
+            Score
+        </th>
+    </tr>
+    @foreach (var rating in Model.Ratings)
+    {
+        <tr>
+            <td>
+                <strong class="text-danger" style="color:silver">@rating.creator</strong>
+            </td>
+            <td>
+                <strong class="text-danger" style="color:silver">@rating.rating.Score</strong>
+            </td>
+            <td>
+            </td>
+            <td>
+                @Html.ActionLink("Details", "Details", "Ratings", new { id = rating.rating.Id, ratedUserName = Model.Name }, new { @class = "navbar-brand" })
+            </td>
+        </tr>
+
+    }
+</table>
+
+<p>
+    @Html.ActionLink("Back to List", "Index")
+    @if (Request.IsAuthenticated)
+    {
+        if (User.Identity.Name != Model.Name)
+        {
+            @Html.ActionLink("Add rating", "Create", "Ratings", new { id = Model.Id, ratedUserName = Model.Name }, null)
+        }
+    }
+</p>
